@@ -1,3 +1,6 @@
+from app.models.plane import Plane
+from app.models.airline import Airline
+
 from sqlmodel import CheckConstraint, SQLModel, Field, Relationship, ForeignKey
 
 from datetime import datetime
@@ -19,6 +22,6 @@ class Flight(SQLModel, table=True):
         CheckConstraint("seat_price > 0")
     )
 
-    plane: "Plane" = Relationship(back_populates="flights")
-    airline: "Airline" = Relationship(back_populates="flights")
+    plane: Plane = Relationship(back_populates="flights")
+    airline: Airline = Relationship(back_populates="flights")
     reservations: list["Reservation"] = Relationship(back_populates="flight")

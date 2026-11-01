@@ -1,4 +1,4 @@
-from sqlmodel import CheckConstraint, SQLModel, Field, Relationship, UniqueConstraint, ForeignKey
+from sqlmodel import CheckConstraint, SQLModel, Field, UniqueConstraint, ForeignKey
 from datetime import date
 
 
@@ -15,13 +15,11 @@ class PassportInfo(SQLModel, table=True):
     confirmed: bool = Field(default=False)
 
     __table_args__ = (
-        UniqueConstraint("serial", "number"),
+        UniqueConstraint("series", "number"),
         UniqueConstraint("fk_user_id"),
         CheckConstraint("series > 0 and series <= 9999"),
         CheckConstraint("number > 0 and number <= 999999")
     )
-
-    user: "User" | None = Relationship(back_populates="passport_info")
 
     """
     returns passport's series and number as string.

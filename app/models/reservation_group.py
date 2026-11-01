@@ -1,3 +1,5 @@
+from app.models.user import User
+
 from sqlmodel import SQLModel, Field, Relationship, CheckConstraint
 
 from datetime import datetime
@@ -16,6 +18,6 @@ class ReservationGroup(SQLModel, table=True):
         CheckConstraint("price > 0")
     )
 
-    owner: "User" = Relationship(back_populates="owned_reservation_groups")
+    owner: User = Relationship(back_populates="owned_reservation_groups")
     reservation_requests: list["ReservationRequest"] = Relationship(back_populates="reservation_group")
     reservations: list["Reservation"] = Relationship(back_populates="reservation_group")

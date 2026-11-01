@@ -1,5 +1,6 @@
+from app.models.countries import Country
+
 from sqlmodel import SQLModel, Field, ForeignKey, Relationship
-from countries import Country
 
 
 class City(SQLModel, table=True):

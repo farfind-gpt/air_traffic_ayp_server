@@ -6,7 +6,7 @@ class Plane(SQLModel, table=True):
     plane_id: int = Field(default=None, primary_key=True)
     name: str = Field(default=None, unique=True)
 
-    __table_args__ = (
+    __table_args__ = tuple(
         CheckConstraint("default_seat_price > 0")
     )
 

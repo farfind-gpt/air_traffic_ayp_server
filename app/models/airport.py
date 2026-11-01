@@ -1,3 +1,5 @@
+from app.models.city import City
+
 from sqlmodel import SQLModel, Field, ForeignKey, Relationship
 
 
@@ -7,5 +9,5 @@ class Airport(SQLModel, table=True):
     name: str = Field(default=None, unique=True)
     fk_city_id: int = ForeignKey("cities.city_id", default=None)
 
-    city: "City" = Relationship(back_populates="airports")
+    city: City = Relationship(back_populates="airports")
     route_points: list["RoutePoint"] = Relationship(back_populates="airports")

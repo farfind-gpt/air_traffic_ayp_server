@@ -1,3 +1,6 @@
+from app.models.user import User
+from app.models.reservation_group import ReservationGroup
+
 from sqlmodel import SQLModel, Field, Relationship, ForeignKey
 
 
@@ -8,5 +11,5 @@ class ReservationRequest(SQLModel, table=True):
     fk_user_id: int = ForeignKey("users.user_id", default=None)
     accepted: bool = Field(default=False)
 
-    reservation_group: "ReservationGroup" = Relationship(back_populates="reservation_requests")
-    user: "User" = Relationship(back_populates="reservation_requests")
+    reservation_group: ReservationGroup = Relationship(back_populates="reservation_requests")
+    user: User = Relationship(back_populates="reservation_requests")

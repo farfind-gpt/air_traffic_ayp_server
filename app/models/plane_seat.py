@@ -1,3 +1,5 @@
+from app.models.plane import Plane
+
 from sqlmodel import SQLModel, Field, ForeignKey, Relationship, UniqueConstraint
 
 
@@ -12,4 +14,4 @@ class PlaneSeat(SQLModel, table=True):
         UniqueConstraint("fk_plane_id", "number")
     )
 
-    plane: "Plane" = Relationship(back_populates="seats")
+    plane: Plane = Relationship(back_populates="seats")
