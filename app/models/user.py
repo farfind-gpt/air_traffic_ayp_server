@@ -6,7 +6,6 @@ class User(SQLModel, table=True):
     user_id: int = Field(default=None, primary_key=True)
     email: str = Field(default=None, unique=True)
     password_hash: str = Field(default=None)
-    fk_passport_info_id: int | None = ForeignKey("passport_info.entry_id", default=None)
 
     passport_info: "PassportInfo" | None = Relationship(back_populates="user")
     reservations: list["Reservation"] = Relationship(back_populates="user")

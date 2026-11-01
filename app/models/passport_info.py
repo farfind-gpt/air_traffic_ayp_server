@@ -1,10 +1,11 @@
-from sqlmodel import CheckConstraint, SQLModel, Field, Relationship, UniqueConstraint
+from sqlmodel import CheckConstraint, SQLModel, Field, Relationship, UniqueConstraint, ForeignKey
 from datetime import date
 
 
 class PassportInfo(SQLModel, table=True):
     __tablename__ = "passport_info"
     entry_id: int = Field(default=None, primary_key=True)
+    fk_user_id: int = ForeignKey("users.user_id", default=None)
     first_name: str = Field(default=None)
     last_name: str = Field(default=None)
     patronymic: str | None = Field(default=None)
@@ -15,6 +16,7 @@ class PassportInfo(SQLModel, table=True):
 
     __table_args__ = (
         UniqueConstraint("serial", "number"),
+        UniqueConstraint("fk_user_id"),
         CheckConstraint("series > 0 and series <= 9999"),
         CheckConstraint("number > 0 and number <= 999999")
     )
