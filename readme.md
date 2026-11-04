@@ -32,5 +32,8 @@ create *_.env_* file in project's root and put something like
 DATABASE_URL="postgresql+psycopg://user:password@server:port/db_name"
 ```
 in it
-### wait until i finish writing this instruction
-wait
+### run the module
+run
+```bash
+python -m app.main
+```
