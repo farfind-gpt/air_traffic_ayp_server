@@ -26,6 +26,11 @@ class CitiesController:
 
     @staticmethod
     def add_city(session: Session, name: str, country_id: int) -> City:
+        search_res = session.exec(select(City).where(City.name == name)).first()
+
+        if search_res:
+            raise HTTPException(status.HTTP_409_CONFLICT, "city with this name already exists")
+
         if session.get(Country, country_id) is None:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, f"no country with id {country_id}")
 
@@ -33,6 +38,7 @@ class CitiesController:
 
         session.add(city)
         session.commit()
+        session.refresh(city)
 
         return city
 

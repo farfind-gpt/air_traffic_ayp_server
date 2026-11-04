@@ -6,4 +6,4 @@ class Country(SQLModel, table=True):
     country_id: int = Field(default=None, primary_key=True)
     name: str = Field(default=None, unique=True)
 
-    cities: List["City"] = Relationship(back_populates="country")
+    cities: list["City"] = Relationship(back_populates="country")

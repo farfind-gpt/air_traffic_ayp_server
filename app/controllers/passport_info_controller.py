@@ -3,19 +3,34 @@ from app.models.user import User
 from app.schemas.passport_info_schemas import *
 
 from fastapi import HTTPException, status
-from sqlmodel import Session, select, delete
+from sqlmodel import Session, String, select, delete, cast
 from sqlalchemy.exc import IntegrityError
 
 
 class PassportInfoController:
 
     @staticmethod
-    def get_all(session: Session) -> list[PassportInfo]:
-        return list(session.exec(select(PassportInfo)))
+    def get_paginated(session: Session, limit: int, offset: int) -> list[PassportInfo]:
+        if limit > 50:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, detail="max limit is 50")
+
+        return list(session.exec(select(PassportInfo).offset(offset).limit(limit)))
 
     @staticmethod
     def get_by_id(session: Session, id: int) -> PassportInfo | None:
         return session.get(PassportInfo, id)
+
+    @staticmethod
+    def search(session: Session, series: int, number: int) -> list[PassportInfo]:
+        series_str, number_str = str(series), str(number)
+
+        return list(session.exec(
+            select(PassportInfo).where(cast(PassportInfo.series, String).contains(series_str) and cast(PassportInfo.number, String).contains(number_str))
+        ))
+
+    @staticmethod
+    def get_by_series_and_number(session: Session, series: int, number: int) -> PassportInfo | None:
+        return session.exec(select(PassportInfo).where(PassportInfo.series == series and PassportInfo.number == number)).first()
 
     @staticmethod
     def add_passport_info(session: Session, data: PassportInfoNoIDSchema) -> PassportInfo:
@@ -27,6 +42,7 @@ class PassportInfoController:
 
         session.add(passport_info)
         session.commit()
+        session.refresh(passport_info)
 
         return passport_info
 

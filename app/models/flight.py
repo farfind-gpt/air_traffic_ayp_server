@@ -1,7 +1,7 @@
 from app.models.plane import Plane
 from app.models.airline import Airline
 
-from sqlmodel import CheckConstraint, SQLModel, Field, Relationship, ForeignKey
+from sqlmodel import CheckConstraint, SQLModel, Field, Relationship
 
 from datetime import datetime
 
@@ -9,16 +9,16 @@ from datetime import datetime
 class Flight(SQLModel, table=True):
     __tablename__ = "flights"
     flight_id: int = Field(default=None, primary_key=True)
-    fk_plane_id: int = ForeignKey("planes.plane_id", default=None)
-    fk_orig_airport_id: int = ForeignKey("airports.airport_id", default=None)
-    fk_dest_airport_id: int = ForeignKey("airports.airport_id", default=None)
-    fk_airline_id: int = ForeignKey("airlines.airline_id", default=None)
+    fk_plane_id: int = Field(default=None, foreign_key="planes.plane_id")
+    fk_orig_airport_id: int = Field(default=None, foreign_key="airports.airport_id")
+    fk_dest_airport_id: int = Field(default=None, foreign_key="airports.airport_id")
+    fk_airline_id: int = Field(default=None, foreign_key="airlines.airline_id")
     departure_datetime: datetime = Field(default=None)
     planed_arrival_datetime: datetime = Field(default=None)
 
     seat_price: int = Field(default=None, gt=0)
 
-    __table_args__ = (
+    __table_args__ = tuple(
         CheckConstraint("seat_price > 0")
     )
 

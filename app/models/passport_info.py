@@ -1,11 +1,11 @@
-from sqlmodel import CheckConstraint, SQLModel, Field, UniqueConstraint, ForeignKey
+from sqlmodel import CheckConstraint, SQLModel, Field, UniqueConstraint
 from datetime import date
 
 
 class PassportInfo(SQLModel, table=True):
     __tablename__ = "passport_info"
     entry_id: int = Field(default=None, primary_key=True)
-    fk_user_id: int = ForeignKey("users.user_id", default=None)
+    fk_user_id: int = Field(default=None, foreign_key="users.user_id")
     first_name: str = Field(default=None)
     last_name: str = Field(default=None)
     patronymic: str | None = Field(default=None)
