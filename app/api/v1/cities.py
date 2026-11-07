@@ -33,5 +33,5 @@ def add_city_route(city: CityNoIDSchema, session: Session = Depends(get_session)
     return CitiesController.add_city(session, city.name, city.fk_country_id)
 
 @router.delete("/{id}", summary="delete country by id")
-def delete_country_by_id_route(id: int, session: Session = Depends(get_session)) -> CountSchema:
+def delete_city_by_id_route(id: int, session: Session = Depends(get_session)) -> CountSchema:
     return CountSchema(count=(1 if CitiesController.delete_city(session, id) else 0))

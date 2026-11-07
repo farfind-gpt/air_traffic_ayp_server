@@ -17,7 +17,8 @@ class Reservation(SQLModel, table=True):
     reserved_by_user: bool = Field(default=True)
     reservation_comment: str | None = Field(default=None)
     fk_user_id: int | None = Field(default=None, foreign_key="users.user_id")
-    fk_reservation_group_id: int | None = Field(default=None, foreign_key="reservation_groups.reservation_group_id")
+    fk_reservation_group_id: int = Field(default=None, foreign_key="reservation_groups.reservation_group_id")
+    canceled: bool = Field(default=False)
 
     flight: Flight = Relationship(back_populates="reservations")
     seat: PlaneSeat = Relationship()

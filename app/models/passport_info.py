@@ -20,10 +20,3 @@ class PassportInfo(SQLModel, table=True):
         CheckConstraint("series > 0 and series <= 9999"),
         CheckConstraint("number > 0 and number <= 999999")
     )
-
-    """
-    returns passport's series and number as string.
-    format: "SSSS-NNNNNN"
-    """
-    def get_id_string(self) -> str:
-        return f"{self.series:04}-{self.number:06}"
