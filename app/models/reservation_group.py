@@ -1,4 +1,4 @@
-from app.models.user import User
+from app.models.passenger import Passenger
 
 from sqlmodel import SQLModel, Field, Relationship, CheckConstraint
 
@@ -9,15 +9,13 @@ class ReservationGroup(SQLModel, table=True):
     __tablename__ = "reservation_groups"
     reservation_group_id: int = Field(default=None, primary_key=True)
     reservation_group_code: str = Field(default=None, max_length=6)
-    fk_owner_user_id: int = Field(default=None, foreign_key="users.user_id")
+    fk_owner_id: int = Field(default=None, foreign_key="passengers.passenger_id")
     created_at: datetime = Field(default=None)
-    price: int = Field(default=None, gt=0)
     paid: bool = Field(default=False)
 
     __table_args__ = tuple(
         CheckConstraint("price > 0")
     )
 
-    owner: User = Relationship(back_populates="owned_reservation_groups")
-    reservation_requests: list["ReservationRequest"] = Relationship(back_populates="reservation_group")
+    owner: Passenger = Relationship(back_populates="reservation_groups_owned")
     reservations: list["Reservation"] = Relationship(back_populates="reservation_group")

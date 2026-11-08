@@ -1,2 +1,0 @@
-- search users by full name
-- search users by passport info

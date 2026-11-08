@@ -7,6 +7,9 @@ class CityNoIDSchema(BaseModel):
     name: str = Field(default=None, examples=["London"])
     fk_country_id: int = Field(default=None, examples=[1])
 
+    """
+    sets City model fields to contain values from this object
+    """
     def apply_to_city(self, city: City):
         city.name = self.name
         city.fk_country_id = self.fk_country_id

@@ -16,7 +16,7 @@ class CitiesController:
     @staticmethod
     def get_all_in_country(session: Session, country_id: int) -> list[City]:
         if session.get(Country, country_id) is None:
-            raise HTTPException(status.HTTP_404_NOT_FOUND, f"there is not country with id {country_id}")
+            raise HTTPException(status.HTTP_404_NOT_FOUND, f"there is no country with id {country_id}")
 
         return list(session.exec(select(City).where(City.fk_country_id == country_id)))
 
@@ -26,11 +26,6 @@ class CitiesController:
 
     @staticmethod
     def add_city(session: Session, name: str, country_id: int) -> City:
-        search_res = session.exec(select(City).where(City.name == name)).first()
-
-        if search_res:
-            raise HTTPException(status.HTTP_409_CONFLICT, "city with this name already exists")
-
         if session.get(Country, country_id) is None:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, f"no country with id {country_id}")
 

@@ -2,16 +2,16 @@ from app.db.database import create_db, close_db
 
 from app.api.v1.cities import router as cities_router
 from app.api.v1.countries import router as countries_router
-from app.api.v1.passport_info import router as passport_info_router
 
 from app.models.airline import Airline
 from app.models.airport import Airport
 from app.models.flight import Flight
+from app.models.flight_seat import FlightSeat
+from app.models.passenger import Passenger
 from app.models.plane import Plane
 from app.models.plane_seat import PlaneSeat
 from app.models.reservation import Reservation
 from app.models.reservation_group import ReservationGroup
-from app.models.reservation_request import ReservationRequest
 from app.models.user import User
 
 from fastapi import FastAPI, Request, status
@@ -41,7 +41,7 @@ async def default_exception_handler(request: Request, exc: Exception):
     else:
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, f"internal error: {type(exc).__name__}")
 
-for router in [cities_router, countries_router, passport_info_router]:
+for router in [cities_router, countries_router]:
     app_v1.include_router(router)
 
 if __name__ == "__main__":

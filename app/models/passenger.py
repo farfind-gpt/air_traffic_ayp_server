@@ -1,22 +1,24 @@
-from sqlmodel import CheckConstraint, SQLModel, Field, UniqueConstraint
+from sqlmodel import CheckConstraint, SQLModel, Field, UniqueConstraint, Relationship
 from datetime import date
 
 
-class PassportInfo(SQLModel, table=True):
-    __tablename__ = "passport_info"
-    entry_id: int = Field(default=None, primary_key=True)
-    fk_user_id: int = Field(default=None, foreign_key="users.user_id")
+class Passenger(SQLModel, table=True):
+    __tablename__ = "passengers"
+    passenger_id: int = Field(default=None, primary_key=True)
     first_name: str = Field(default=None)
     last_name: str = Field(default=None)
     patronymic: str | None = Field(default=None)
     birth_date: date = Field(default=None)
     series: int = Field(default=None, ge=0, le=9999)
     number: int = Field(default=None, ge=0, le=999999)
-    confirmed: bool = Field(default=False)
+    issuer: str = Field(default=None)
+    issurance_date: date = Field(default=None)
 
     __table_args__ = (
         UniqueConstraint("series", "number"),
-        UniqueConstraint("fk_user_id"),
         CheckConstraint("series > 0 and series <= 9999"),
         CheckConstraint("number > 0 and number <= 999999")
     )
+
+    reservations: list["Reservation"] = Relationship(back_populates="passenger")
+    reservation_groups_owned: list["ReservationGroup"] = Relationship(back_populates="owner")
