@@ -4,7 +4,6 @@ from app.schemas.count_shema import CountSchema
 from app.controllers.planes_controller import PlanesController
 from app.controllers.plane_seats_controller import PlaneSeatsController
 from app.db.session import get_session
-from app.api.rollback_on_exception import rollback_on_exception
 
 from fastapi import APIRouter, Query, Depends, HTTPException, status
 from sqlmodel import Session
@@ -42,12 +41,10 @@ def get_plane_by_id_route(id: int, no_seats: bool = Query(default=False), sessio
     raise HTTPException(status.HTTP_404_NOT_FOUND, "plane not found")
 
 @router.put("/{id}", summary="update plane")
-@rollback_on_exception
 def update_plane_route(id: int, data: PlaneNoIdSchema, session: Session = Depends(get_session)) -> Plane:
     return PlanesController.update_plane(session, id, data.name)
 
 @router.post("", summary="add plane")
-@rollback_on_exception
 def add_plane_route(data: PlaneWithSeatsNoIdSchema, session: Session = Depends(get_session)) -> PlaneWithSeatsSchema:
     plane = PlanesController.add_plane(session, data.name)
 
@@ -65,6 +62,5 @@ def add_plane_route(data: PlaneWithSeatsNoIdSchema, session: Session = Depends(g
     )
 
 @router.delete("/{id}", summary="delete plane by id")
-@rollback_on_exception
 def delete_plane_by_id_route(id: int, session: Session = Depends(get_session)) -> CountSchema:
     return CountSchema(count=(1 if PlanesController.delete_plane(session, id) else 0))

@@ -3,7 +3,6 @@ from app.schemas.airline_schemas import AirlineNoIdShema
 from app.schemas.count_shema import CountSchema
 from app.controllers.airlines_controller import AirlinesController
 from app.db.session import get_session
-from app.api.rollback_on_exception import rollback_on_exception
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session
@@ -14,6 +13,8 @@ router = APIRouter(prefix="/airlines", tags=["Airlines"])
 
 @router.get("", summary="get all airlines")
 def get_all_airlines_route(session: Session = Depends(get_session)) -> list[Airline]:
+    from sqlalchemy.exc import IntegrityError
+    raise IntegrityError("", None, Exception())
     return AirlinesController.get_all(session)
 
 @router.get("/{id}", summary="get airline by id")
@@ -26,16 +27,13 @@ def get_airline_by_id_route(id: int, session: Session = Depends(get_session)) ->
     return airline
 
 @router.put("/{id}", summary="update airline")
-@rollback_on_exception
 def update_airline_route(id: int, data: AirlineNoIdShema, session: Session = Depends(get_session)) -> Airline:
     return AirlinesController.update_airline(session, id, data.name, data.airline_code)
 
 @router.post("", summary="add airline")
-@rollback_on_exception
 def add_airline_route(airline: AirlineNoIdShema, session: Session = Depends(get_session)) -> Airline:
     return AirlinesController.add_airline(session, airline.airline_code, airline.name)
 
 @router.delete("/{id}", summary="delete airline by id")
-@rollback_on_exception
 def delete_airline_by_id_route(id: int, session: Session = Depends(get_session)) -> CountSchema:
     return CountSchema(count=(1 if AirlinesController.delete_airline(session, id) else 0))

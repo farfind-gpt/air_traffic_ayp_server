@@ -3,7 +3,6 @@ from app.schemas.airport_schemas import AirportNoIdSchema
 from app.schemas.count_shema import CountSchema
 from app.controllers.airports_controller import AirportsController
 from app.db.session import get_session
-from app.api.rollback_on_exception import rollback_on_exception
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session
@@ -26,16 +25,13 @@ def get_airpotr_by_id_route(id: int, session: Session = Depends(get_session)) ->
     return airport
 
 @router.put("/{id}", summary="update airport")
-@rollback_on_exception
 def update_airport_route(id: int, airport: AirportNoIdSchema, session: Session = Depends(get_session)) -> Airport:
     return AirportsController.update_airport(session, id, airport)
 
 @router.post("", summary="add airport")
-@rollback_on_exception
 def add_airport_route(airport: AirportNoIdSchema, session: Session = Depends(get_session)) -> Airport:
     return AirportsController.add_airport(session, airport)
 
 @router.delete("/{id}", summary="delete airport by id")
-@rollback_on_exception
 def delete_airport_by_id_route(id: int, session: Session = Depends(get_session)) -> CountSchema:
     return CountSchema(count=(1 if AirportsController.delete_airport(session, id) else 0))
