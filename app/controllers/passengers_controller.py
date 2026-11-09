@@ -1,6 +1,6 @@
 from app.models.passenger import Passenger
 from app.schemas.passenger_schemas import PassengerNoIdSchema
-
+from app.config import PAGE_LIMIT
 
 from fastapi import HTTPException, status
 from sqlmodel import Session, select, delete, String, cast
@@ -15,6 +15,9 @@ class PassengersController:
 
     @staticmethod
     def get_paginated(session: Session, offset: int = 0, limit: int = 0):
+        if limit > PAGE_LIMIT:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, f"maximal limit is {PAGE_LIMIT}")
+
         return list(session.exec(select(Passenger).offset(offset).limit(limit)))
 
     @staticmethod
@@ -28,15 +31,21 @@ class PassengersController:
             )).first()
 
     @staticmethod
-    def search_by_series_and_number(session: Session, series: str, number: str) -> list[Passenger]:
+    def search_by_series_and_number(session: Session, series: str, number: str, offset: int = 0, limit: int = 0) -> list[Passenger]:
+        if limit > PAGE_LIMIT:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, f"maximal limit is {PAGE_LIMIT}")
+
         return list(session.exec(select(Passenger).where(
             cast(Passenger.series, String).contains(series)
             and
             cast(Passenger.number, String).contains(number)
-        )))
+        ).offset(offset).limit(limit)))
 
     @staticmethod
-    def search_by_name(session: Session, first_name: str, last_name: str, patronymic: str) -> list[Passenger]:
+    def search_by_name(session: Session, first_name: str, last_name: str, patronymic: str, offset: int = 0, limit: int = 0) -> list[Passenger]:
+        if limit > PAGE_LIMIT:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, f"maximal limit is {PAGE_LIMIT}")
+
         if patronymic:
             return list(session.exec(select(Passenger).where(
                 Passenger.first_name.contains(first_name)
@@ -44,13 +53,13 @@ class PassengersController:
                 Passenger.last_name.contains(last_name)
                 and
                 Passenger.patronymic.contains(patronymic)
-            )))
+            ).offset(offset).limit(limit)))
         else:
             return list(session.exec(select(Passenger).where(
                 Passenger.first_name.contains(first_name)
                 and
                 Passenger.last_name.contains(last_name)
-            )))
+            ).offset(offset).limit(limit)))
 
     @staticmethod
     def add_passenger(session: Session, data: PassengerNoIdSchema) -> Passenger:

@@ -21,9 +21,9 @@ def validate_seires_and_number_format(string: str) -> bool:
 
 """
 returns passport series and number from given string
-as tuple with 2 int values, or None if string has
-invalid format. correct format is "SSSS-NNNNNN",
-where all S and N are digits
+as tuple with 2 int values (first is series, second is number),
+or None if string has invalid format. correct format is
+"SSSS-NNNNNN", where all S and N are digits
 """
 def get_series_and_number_from_string(string: str) -> tuple[int, int] | None
     if not validate_seires_and_number_format(string):
