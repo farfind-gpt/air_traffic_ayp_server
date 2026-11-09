@@ -9,7 +9,7 @@ class ReservationGroup(SQLModel, table=True):
     __tablename__ = "reservation_groups"
     reservation_group_id: int = Field(default=None, primary_key=True)
     reservation_group_code: str = Field(default=None, max_length=6)
-    fk_owner_id: int = Field(default=None, foreign_key="passengers.passenger_id")
+    fk_owner_id: int | None = Field(default=None, foreign_key="passengers.passenger_id", ondelete="SET NULL")
     created_at: datetime = Field(default=None)
     paid: bool = Field(default=False)
 

@@ -18,3 +18,17 @@ def validate_seires_and_number_format(string: str) -> bool:
     return len(splitted) == 2 \
            and len(splitted[0]) == 4 and len(splitted[1]) == 6 \
            and splitted[0].isdigit() and splitted[1].isdigit()
+
+"""
+returns passport series and number from given string
+as tuple with 2 int values, or None if string has
+invalid format. correct format is "SSSS-NNNNNN",
+where all S and N are digits
+"""
+def get_series_and_number_from_string(string: str) -> tuple[int, int] | None
+    if not validate_seires_and_number_format(string):
+        return None
+
+    splitted: list[str] = string.split('-')
+
+    return (int(splitted[0]), int(splitted[1]))
