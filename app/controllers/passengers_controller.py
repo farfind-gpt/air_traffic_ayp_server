@@ -14,7 +14,7 @@ class PassengersController:
         return list(session.exec(select(Passenger)))
 
     @staticmethod
-    def get_paginated(session: Session, offset: int = 0, limit: int = 0):
+    def get_paginated(session: Session, offset: int = 0, limit: int = 0) -> list[Passenger]:
         if limit > PAGE_LIMIT:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, f"maximal limit is {PAGE_LIMIT}")
 

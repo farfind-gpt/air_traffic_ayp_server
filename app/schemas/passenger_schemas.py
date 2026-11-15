@@ -1,8 +1,11 @@
 from app.models.passenger import Passenger
+from app.models.reservation_group import ReservationGroup
 
 from pydantic import BaseModel, Field
+from sqlmodel import Session
 
 from datetime import date
+from typing import Self
 
 
 class PassengerNoIdSchema(BaseModel):
@@ -42,3 +45,17 @@ class PassengerNoIdSchema(BaseModel):
             issuer=self.issuer,
             issurance_date=self.issurance_date,
         )
+
+
+class PassengerDetailsSchema(BaseModel):
+    passenger_id: int = Field(examples=[43])
+    first_name: str = Field(examples=["Иван"])
+    last_name: str = Field(examples=["Иванов"])
+    patronymic: str | None = Field(default=None, examples=["Иванович", None])
+    birth_date: date = Field(examples=[date(2002, 5, 20)])
+    series: int = Field(ge=0, le=9999, examples=[1234])
+    number: int = Field(ge=0, le=999999, examples=[123456])
+    issuer: str = Field(examples=["Организация"])
+    issurance_date: date = Field(examples=[date(2016, 6, 24)]),
+    owned_groups: list[ReservationGroup] = Field()
+    member_of_groups: list[ReservationGroup] = Field()

@@ -5,6 +5,8 @@ from app.api.v1.airports import router as airports_router
 from app.api.v1.cities import router as cities_router
 from app.api.v1.countries import router as countries_router
 from app.api.v1.planes import router as planes_router
+from app.api.v1.passengers import router as passengers_router
+from app.api.v1.reservation_groups import router as reservation_groups_router
 
 from app.models.flight import Flight
 from app.models.flight_seat import FlightSeat
@@ -40,7 +42,7 @@ async def default_exception_handler(request: Request, exc: IntegrityError):
         }
     )
 
-for router in [airlines_router, airports_router, cities_router, countries_router, planes_router]:
+for router in [airlines_router, airports_router, cities_router, countries_router, planes_router, passengers_router, reservation_groups_router]:
     app_v1.include_router(router)
 
 if __name__ == "__main__":
