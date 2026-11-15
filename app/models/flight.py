@@ -9,6 +9,8 @@ from datetime import datetime
 class Flight(SQLModel, table=True):
     __tablename__ = "flights"
     flight_id: int = Field(default=None, primary_key=True)
+    # https://en.wikipedia.org/wiki/Flight_number
+    flight_num: int = Field(ge=0, le=9999)
     fk_plane_id: int = Field(default=None, foreign_key="planes.plane_id")
     fk_orig_airport_id: int = Field(default=None, foreign_key="airports.airport_id")
     fk_dest_airport_id: int = Field(default=None, foreign_key="airports.airport_id")
@@ -16,8 +18,10 @@ class Flight(SQLModel, table=True):
     departure_datetime: datetime = Field(default=None)
     planed_arrival_datetime: datetime = Field(default=None)
 
-    __table_args__ = tuple(
-        CheckConstraint("seat_price > 0")
+    __table_args__ = (
+        CheckConstraint("seat_price > 0"),
+        CheckConstraint("flight_num >= 0 and flight_num <= 9999"),
+        CheckConstraint("fk_orig_airport_id <> fk_dest_airport_id")
     )
 
     plane: Plane = Relationship(back_populates="flights")

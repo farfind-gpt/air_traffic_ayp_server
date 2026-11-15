@@ -15,7 +15,7 @@ class Reservation(SQLModel, table=True):
     fk_passenger_id: int | None = Field(default=None, foreign_key="passengers.passenger_id", ondelete="SET NULL")
     fk_seat_id: int = Field(default=None, foreign_key="plane_seats.seat_id")
     reservation_time: datetime = Field(default=None)
-    fk_reservation_group_id: int = Field(default=None, foreign_key="reservation_groups.reservation_group_id")
+    fk_reservation_group_id: int = Field(default=None, foreign_key="reservation_groups.reservation_group_id", ondelete="CASCADE")
     price: int = Field(default=None)
     canceled: bool = Field(default=False)
 

@@ -21,11 +21,6 @@ class AirlinesController:
         if not is_valid_airline_code(code):
             raise HTTPException(status.HTTP_400_BAD_REQUEST, "airline code is not valid")
 
-        search_res = session.exec(select(Airline).where(Airline.airline_code == code)).first()
-
-        if search_res:
-            raise HTTPException(status.HTTP_409_CONFLICT, "airline with this code already exists")
-
         search_res = session.exec(select(Airline).where(Airline.name == name)).first()
 
         if search_res:
@@ -54,11 +49,6 @@ class AirlinesController:
         if airline.airline_code != code:
             if not is_valid_airline_code(code):
                 raise HTTPException(status.HTTP_400_BAD_REQUEST, "airline code is not valid")
-
-            search_res = session.exec(select(Airline).where(Airline.airline_code == code)).first()
-
-            if search_res:
-                raise HTTPException(status.HTTP_409_CONFLICT, "airline with this code already exists")
 
         airline.name = name
         airline.airline_code = code
