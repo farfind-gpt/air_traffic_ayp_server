@@ -48,7 +48,7 @@ class FlightDetailsSchema(BaseModel):
     fk_dest_airport_id: int = Field(examples=[39])
     departure_datetime: datetime = Field(examples=[datetime(2021, 1, 1, 12, 30, 00)])
     planed_arrival_datetime: datetime = Field(examples=[datetime(2021, 1, 1, 14, 30, 00)])
-    flight_seats: list[FlightSeatInFlightSchema] = Field()
+    flight_seats: list[FlightSeatInFlightDetailsSchema] = Field()
 
 class FlightEditSchema(BaseModel):
     flight_num: int = Field(ge=0, le=9999, examples=[67])

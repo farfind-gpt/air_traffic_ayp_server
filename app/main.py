@@ -7,17 +7,14 @@ from app.api.v1.countries import router as countries_router
 from app.api.v1.planes import router as planes_router
 from app.api.v1.passengers import router as passengers_router
 from app.api.v1.reservation_groups import router as reservation_groups_router
+from app.api.v1.flights import router as flights_router
 
-from app.models.flight import Flight
-from app.models.flight_seat import FlightSeat
-from app.models.passenger import Passenger
 from app.models.reservation import Reservation
 from app.models.reservation_group import ReservationGroup
 from app.models.user import User
 
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
-from fastapi.exceptions import HTTPException
 from sqlalchemy.exc import IntegrityError
 import uvicorn
 
@@ -42,7 +39,7 @@ async def default_exception_handler(request: Request, exc: IntegrityError):
         }
     )
 
-for router in [airlines_router, airports_router, cities_router, countries_router, planes_router, passengers_router, reservation_groups_router]:
+for router in [airlines_router, airports_router, cities_router, countries_router, planes_router, passengers_router, reservation_groups_router, flights_router]:
     app_v1.include_router(router)
 
 if __name__ == "__main__":
