@@ -3,7 +3,7 @@ from app.schemas.reservation_group_schemas import *
 from app.schemas.count_shema import CountSchema
 from app.controllers.reservation_groups_controller import ReservationGroupsController
 from app.db.session import get_session
-from app.config import PAGE_LIMIT
+from app.core.config import PAGE_LIMIT
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlmodel import Session

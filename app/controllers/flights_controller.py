@@ -7,7 +7,7 @@ from app.models.city import City
 from app.models.plane_seat import PlaneSeat
 from app.schemas.flight_schemas import *
 from app.utils.flights import parse_flight_code
-from app.config import PAGE_LIMIT
+from app.core.config import PAGE_LIMIT
 
 from fastapi import HTTPException, status
 from sqlmodel import Session, select, delete

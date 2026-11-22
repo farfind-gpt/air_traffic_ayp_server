@@ -5,7 +5,7 @@ from app.controllers.passengers_controller import PassengersController
 from app.controllers.reservation_groups_controller import ReservationGroupsController
 from app.utils.passengers import get_series_and_number_from_string
 from app.db.session import get_session
-from app.config import PAGE_LIMIT
+from app.core.config import PAGE_LIMIT
 
 from fastapi import APIRouter, Query, Depends, HTTPException, status
 from sqlmodel import Session

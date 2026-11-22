@@ -6,7 +6,7 @@ from app.controllers.flight_seats_controller import FlightSeatsController
 from app.controllers.flights_controller import FlightsController
 from app.utils.flights import build_flight_code
 from app.db.session import get_session
-from app.config import PAGE_LIMIT
+from app.core.config import PAGE_LIMIT
 
 from fastapi import APIRouter, Query, Depends, HTTPException, status
 from sqlmodel import Session

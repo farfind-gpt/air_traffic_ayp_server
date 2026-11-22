@@ -1,6 +1,6 @@
 from app.models.passenger import Passenger
 from app.schemas.passenger_schemas import PassengerNoIdSchema
-from app.config import PAGE_LIMIT
+from app.core.config import PAGE_LIMIT
 
 from fastapi import HTTPException, status
 from sqlmodel import Session, select, delete, String, cast

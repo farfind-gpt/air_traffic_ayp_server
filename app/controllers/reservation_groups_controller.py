@@ -3,7 +3,7 @@ from app.models.passenger import Passenger
 from app.models.reservation import Reservation
 from app.utils.reservation_groups import *
 from app.schemas.reservation_group_schemas import ReservationGroupEditSchema
-from app.config import PAGE_LIMIT
+from app.core.config import PAGE_LIMIT
 
 from fastapi import HTTPException, status
 from sqlmodel import Session, select, delete
