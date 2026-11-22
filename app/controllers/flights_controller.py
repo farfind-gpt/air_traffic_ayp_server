@@ -66,10 +66,10 @@ class FlightsController:
 
         flights: list[Flight] = list(session.exec(query).all())
 
-        countries: dict[int, Country] = {c.country_id, c for c in session.exec(select(Country)).all()}
-        citites: dict[int, City] = {c.city_id, c for c in session.exec(select(City)).all()}
-        airports: dict[int, Airport] = {a.airport_id, a for a in session.exec(select(Airport)).all()}
-        airlines: dict[int, Airline] = {a.airline_id, a for a in session.exec(select(Airline)).all()}
+        countries: dict[int, Country] = {c.country_id: c for c in session.exec(select(Country)).all()}
+        citites: dict[int, City] = {c.city_id: c for c in session.exec(select(City)).all()}
+        airports: dict[int, Airport] = {a.airport_id: a for a in session.exec(select(Airport)).all()}
+        airlines: dict[int, Airline] = {a.airline_id: a for a in session.exec(select(Airline)).all()}
 
         to_exclude: list[Flight] = []
         def exclude():

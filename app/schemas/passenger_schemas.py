@@ -56,6 +56,6 @@ class PassengerDetailsSchema(BaseModel):
     series: int = Field(ge=0, le=9999, examples=[1234])
     number: int = Field(ge=0, le=999999, examples=[123456])
     issuer: str = Field(examples=["Организация"])
-    issurance_date: date = Field(examples=[date(2016, 6, 24)]),
+    issurance_date: date = Field(examples=[date(2016, 6, 24)])
     owned_groups: list[ReservationGroup] = Field()
     member_of_groups: list[ReservationGroup] = Field()

@@ -43,7 +43,7 @@ def parse_flight_code(string: str) -> tuple[str, int] | None:
 
     splitted = string.split('-')
 
-    return splitted[0], int(splitted[1]
+    return splitted[0], int(splitted[1])
 
 def build_flight_code(airline_code: str, flight_number: int) -> str | None:
     """

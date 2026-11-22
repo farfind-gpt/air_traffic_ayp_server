@@ -13,8 +13,6 @@ router = APIRouter(prefix="/airlines", tags=["Airlines"])
 
 @router.get("", summary="get all airlines")
 def get_all_airlines_route(session: Session = Depends(get_session)) -> list[Airline]:
-    from sqlalchemy.exc import IntegrityError
-    raise IntegrityError("", None, Exception())
     return AirlinesController.get_all(session)
 
 @router.get("/{id}", summary="get airline by id")

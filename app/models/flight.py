@@ -19,12 +19,11 @@ class Flight(SQLModel, table=True):
     planed_arrival_datetime: datetime = Field(default=None)
 
     __table_args__ = (
-        CheckConstraint("seat_price > 0"),
         CheckConstraint("flight_num >= 0 and flight_num <= 9999"),
         CheckConstraint("fk_orig_airport_id <> fk_dest_airport_id")
     )
 
     plane: Plane = Relationship(back_populates="flights")
     airline: Airline = Relationship(back_populates="flights")
-    flight_seats: list["FlightSeat"] = Relationship(back_populates="flights")
+    flight_seats: list["FlightSeat"] = Relationship(back_populates="flight")
     reservations: list["Reservation"] = Relationship(back_populates="flight")
